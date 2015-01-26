@@ -1,0 +1,20 @@
+{
+	"name": "Show 3rd Party",
+	"description": "Show what content external scripts have added.",
+	"version": "2.0",
+	"permissions": [
+		"activeTab"
+	],
+	"background": {
+	},
+	"browser_action": {
+		"default_title": "Show me the content"
+	},
+	"content_scripts": [
+		{
+			"matches": ["http://*/*"],
+			"js": ["frame.js"]
+		}
+	],
+	"manifest_version": 2
+}
