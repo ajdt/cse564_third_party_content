@@ -9,20 +9,13 @@ function getStackTrace() {
   return obj.stack;
 }
 
-function output(arr) {
-  //Optput however you want
-  console.log(arr.join('\n\n'));
-}
-
 function domEvent(e) {
 	//var trace = getStackTrace();
-	//console.log(trace);
-	//printStackTrace();
-	//var trace = printStackTrace();
 	console.trace();
 	console.log(e.target);
-	//console.log(getStackTrace());
-	//$(e.target).css("border", "5px solid red");
+	//console.log(trace);
+	$(e.target).css("border", "5px solid red");
 }
 
 document.addEventListener('DOMNodeInserted', domEvent);
+
