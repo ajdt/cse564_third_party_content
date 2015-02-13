@@ -8,12 +8,13 @@
 	"background": {
 	},
 	"browser_action": {
-		"default_title": "Show me the content"
+		"default_title": "Show me the content",
+		"default_popup": "ui.html"
 	},
 	"content_scripts": [
 		{
 			"matches": ["http://*/*"],
-			"js": ["jquery.min.js", "frame.js"],
+			"js": ["jquery.min.js", "listener.js"],
 			"run_at": "document_start"
 		}
 	],
