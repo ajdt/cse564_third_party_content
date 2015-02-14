@@ -51,21 +51,38 @@ function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
 
+function makeList(domainList) {
+	renderStatus('Info for this page.');
+	var list = document.getElementById('domain_list');
+	for (var key in domainList) {
+		var para = document.createElement("li");
+		var node = document.createTextNode("" + key + ": " + domainList[key].length);
+		para.appendChild(node);
+		var check = document.createElement("input");
+		check.id = key + "_checkbox";
+		check.type = "checkbox";
+		(function(k, b) {
+			b.onclick = function() {
+				chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+					if (b.checked) {
+						chrome.tabs.sendMessage(tabs[0].id, {type: "show", domain: k}, null);
+					} else {
+						chrome.tabs.sendMessage(tabs[0].id, {type: "hide", domain: k}, null);
+					}
+				});
+			}
+		})(key, check);
+		list.appendChild(para);
+		list.appendChild(check);
+	}
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   getCurrentTabUrl(function(url) {
     // Put the image URL in Google search.
     renderStatus('Getting info from page ' + url);
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {type: "all"}, function(response) {
-			renderStatus('Info for this page.');
-			var list = document.getElementById('domain_list');
-			for (var key in response) {
-				var para = document.createElement("li");
-				var node = document.createTextNode("" + key + ": " + response[key].length);
-				para.appendChild(node);
-				list.appendChild(para);
-			}
-		});
+		chrome.tabs.sendMessage(tabs[0].id, {type: "all"}, makeList);
 	});
     
   });

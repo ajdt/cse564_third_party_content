@@ -44,9 +44,25 @@ window.addEventListener('message', function(e) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	console.log("got a message");
+	console.log(request);
 	if (request.type == "all") {
       	sendResponse(collection);
+    } else if (request.type == "show" && collection[request.domain]) {
+    	console.log("adding classes to " + collection[request.domain]);
+    	for (var i = 0; i < collection[request.domain].length; i++) {
+    		//$('#'+collection[request.domain][i]).addClass('highlighted');
+    		var e = document.getElementById(collection[request.domain][i]);
+    		if (e)
+    			e.className += ' highlighted';
+    	}
+    } else if (request.type == "hide" && collection[request.domain]) {
+    	console.log("removing classes from " + collection[request.domain]);
+    	for (var i = 0; i < collection[request.domain].length; i++) {
+    		//$('#'+collection[request.domain][i]).removeClass('highlighted');
+    		var e = document.getElementById(collection[request.domain][i]);
+    		if (e)
+    			e.className = e.className.replace(/\bhighlighted\b/,'');
+    	}
     }
 });
 
